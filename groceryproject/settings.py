@@ -9,25 +9,34 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
+
+
 from pathlib import Path
 import os
 import dj_database_url
 
+# Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECRET KEY
+
+# ========================
+# SECURITY SETTINGS
+# ========================
+
+# SECRET KEY from Render environment
 SECRET_KEY = os.environ.get("SECRET_KEY", "local-secret-key")
 
-# DEBUG
-DEBUG = os.environ.get("DEBUG", "True") == "True"
+# DEBUG from Render environment
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-# ALLOWED HOSTS
-ALLOWED_HOSTS = os.environ.get(
-    "ALLOWED_HOSTS",
-    "127.0.0.1,localhost"
-).split(",")
+# IMPORTANT: Allow Render domain
+ALLOWED_HOSTS = ['*']
 
-# Applications
+
+# ========================
+# APPLICATIONS
+# ========================
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,9 +47,14 @@ INSTALLED_APPS = [
     'store',
 ]
 
+
+# ========================
+# MIDDLEWARE
+# ========================
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # For static files in production
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -49,7 +63,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+# ========================
+# URL CONFIGURATION
+# ========================
+
 ROOT_URLCONF = 'groceryproject.urls'
+
+
+# ========================
+# TEMPLATES
+# ========================
 
 TEMPLATES = [
     {
@@ -66,16 +90,29 @@ TEMPLATES = [
     },
 ]
 
+
+# ========================
+# WSGI
+# ========================
+
 WSGI_APPLICATION = 'groceryproject.wsgi.application'
 
-# Database
+
+# ========================
+# DATABASE
+# ========================
+
 DATABASES = {
     'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3'
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
     )
 }
 
-# Password validation
+
+# ========================
+# PASSWORD VALIDATION
+# ========================
+
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -83,22 +120,37 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
+
+# ========================
+# INTERNATIONALIZATION
+# ========================
+
 LANGUAGE_CODE = 'en-us'
+
 TIME_ZONE = 'UTC'
+
 USE_I18N = True
+
 USE_TZ = True
 
-# Static files
+
+# ========================
+# STATIC FILES
+# ========================
+
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Whitenoise static config
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# ========================
+# DEFAULT PRIMARY KEY
+# ========================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
