@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Select Payment Method</title>
+<style>
+body{
+font-family:Segoe UI;
+background:#f1f3f6;
+margin:0;
+}
+
+.container{
+max-width:500px;
+margin:80px auto;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.2);
+}
+
+h2{
+text-align:center;
+}
+
+.option{
+border:1px solid #ddd;
+padding:15px;
+margin:15px 0;
+border-radius:8px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.option:hover{
+background:#f8f8f8;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:20px;
+font-size:16px;
+background:#2874f0;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Choose Payment Method</h2>
+
+<div class="option" onclick="payOnline()">
+💳 Pay Online (UPI / Card / QR)
+</div>
+
+<div class="option" onclick="cashOnDelivery()">
+💵 Cash on Delivery
+</div>
+
+</div>
+
+<script>
+
+function payOnline(){
+let total = localStorage.getItem("total_amount");
+window.location.href="/payment/?amount="+total;
+}
+
+function cashOnDelivery(){
+
+fetch("/cod/", {
+method:"POST",
+headers:{
+"Content-Type":"application/x-www-form-urlencoded",
+"X-CSRFToken":"{{ csrf_token }}"
+}
+}).then(()=>{
+window.location.href="/success/";
+});
+
+}
+
+</script>
+"id="o7h1r9"
+var options = {
+    "key": "YOUR_KEY_ID",
+    "amount": "100",
+    "currency": "INR",
+    "name": "My Store",
+    "order_id": "{{ payment.id }}",
+    
+    "handler": function (response){
+        window.location.href = "/payment-success/";
+    }
+};
+
+</body>
+</html>

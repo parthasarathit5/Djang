@@ -1,0 +1,27 @@
+<h2>Review Your Order</h2>
+
+<hr>
+
+<p>Total Amount: ₹{{ amount }}</p>
+
+<h3>Select Payment Method</h3>
+
+<a href="/payment/?amount={{ amount }}">
+<button style="background:green;color:white;padding:10px;">
+Pay with Razorpay
+</button>
+</a>
+
+<br><br>
+
+<a href="/cod_order/">
+<button style="background:orange;color:white;padding:10px;">
+Cash on Delivery
+</button>
+</a>
+
+<br><br>
+
+<a href="/">
+<button>Modify Order</button>
+</a>

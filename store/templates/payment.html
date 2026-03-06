@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Payment</title>
+</head>
+
+<body>
+
+<h2>Complete Your Payment</h2>
+
+<button id="rzp-button">Pay Now</button>
+
+<br><br>
+
+<a href="/cod-order/?amount={{amount}}">
+<button>Cash on Delivery</button>
+</a>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+
+var options = {
+    "key": "{{ razorpay_key }}",
+    "amount": "{{ payment.amount }}",
+    "currency": "INR",
+    "name": "Partha Premium Grocery",
+    "description": "Order Payment",
+    "order_id": "{{ payment.id }}",
+
+    handler: function (response) {
+
+        window.location.href =
+        "/payment-success/?razorpay_payment_id=" +
+        response.razorpay_payment_id +
+        "&amount={{amount}}";
+
+    }
+};
+
+var rzp = new Razorpay(options);
+
+document.getElementById("pay-btn").onclick = function(e){
+    rzp.open();
+    e.preventDefault();
+}
+
+</script>
+
+</body>
+</html>

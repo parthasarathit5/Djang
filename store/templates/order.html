@@ -1,0 +1,9 @@
+<h2>Order Successful</h2>
+
+Order ID: {{ order.id }} <br>
+Address: {{ order.address }} <br>
+
+Products:
+{% for item in order.items.all %}
+{{ item.product.name }} - {{ item.quantity }}
+{% endfor %}

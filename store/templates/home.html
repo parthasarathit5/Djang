@@ -1,53 +1,257 @@
-{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Talapala's Groceries</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>Partha Premium Grocery Store</title>
+
+<style>
+
+body{
+font-family:'Segoe UI';
+background:linear-gradient(to right,#ffecd2,#fcb69f);
+margin:0;
+}
+
+.header{
+background:#111;
+color:white;
+padding:20px;
+text-align:center;
+font-size:32px;
+}
+
+.container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.card{
+background:white;
+border-radius:15px;
+padding:20px;
+text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.icon{
+font-size:60px;
+}
+
+button{
+padding:6px 14px;
+border:none;
+background:black;
+color:white;
+cursor:pointer;
+border-radius:5px;
+font-size:16px;
+}
+
+.qty{
+font-size:20px;
+margin:10px;
+font-weight:bold;
+}
+
+.total{
+background:black;
+color:white;
+font-size:25px;
+padding:15px;
+text-align:center;
+}
+
+.checkout{
+text-align:center;
+padding:20px;
+}
+
+</style>
+
+<script>
+
+let total = 0;
+
+function add(id, price){
+
+let q = document.getElementById("q"+id);
+
+let qty = parseInt(q.innerHTML);
+
+qty++;
+
+q.innerHTML = qty;
+
+total += price;
+
+document.getElementById("total").innerHTML = total;
+
+}
+
+function remove(id, price){
+
+let q = document.getElementById("q"+id);
+
+let qty = parseInt(q.innerHTML);
+
+if(qty>0){
+
+qty--;
+
+q.innerHTML = qty;
+
+total -= price;
+
+document.getElementById("total").innerHTML = total;
+
+}
+
+}
+
+function goCheckout(){
+
+if(total<=0){
+
+alert("Please add items first");
+
+return;
+
+}
+
+localStorage.setItem("total_amount",total);
+
+window.location.href="/checkout/";
+
+}
+
+</script>
+
 </head>
-<body class="bg-light">
 
-<nav class="navbar navbar-dark bg-success">
-    <div class="container">
-        <span class="navbar-brand">Talapala's Groceries 🛒</span>
-        <a href="/checkout/" class="btn btn-warning">Checkout</a>
-    </div>
-</nav>
+<body>
 
-<div class="container mt-4">
-    <div class="row">
-        {% for product in products %}
-        <div class="col-md-3">
-            <div class="card shadow-sm mb-4">
+<div class="header">
+Partha Premium Grocery Store 🛒
+</div>
 
-                <!-- Image -->
-                <img src="{% static product.image %}" 
-                     loading="lazy"
-                     class="card-img-top"
-                     style="height:200px; object-fit:cover;">
+<div class="container">
 
-                <div class="card-body text-center">
-                    <h5>{{ product.name }}</h5>
-                    <p class="text-primary fw-bold">₹{{ product.price }}</p>
+<div class="card"><div class="icon">🍎</div>Apple ₹50<br>
+<button onclick="remove(1,50)">-</button>
+<span id="q1" class="qty">0</span>
+<button onclick="add(1,50)">+</button></div>
 
-                    <div class="d-flex justify-content-center gap-2">
-                        <a href="/remove/{{ product.id }}/" class="btn btn-danger btn-sm">-</a>
-                        <span class="fw-bold">{{ product.quantity }}</span>
-                        <a href="/add/{{ product.id }}/" class="btn btn-success btn-sm">+</a>
-                    </div>
+<div class="card"><div class="icon">🍌</div>Banana ₹30<br>
+<button onclick="remove(2,30)">-</button>
+<span id="q2" class="qty">0</span>
+<button onclick="add(2,30)">+</button></div>
 
-                    <p class="mt-2 text-muted">
-                        Subtotal: ₹{{ product.subtotal }}
-                    </p>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+<div class="card"><div class="icon">🍇</div>Grapes ₹60<br>
+<button onclick="remove(3,60)">-</button>
+<span id="q3" class="qty">0</span>
+<button onclick="add(3,60)">+</button></div>
 
-    <div class="card p-3 shadow-lg">
-        <h4 class="text-end">Total: ₹{{ total }}</h4>
-    </div>
+<div class="card"><div class="icon">🍊</div>Orange ₹40<br>
+<button onclick="remove(4,40)">-</button>
+<span id="q4" class="qty">0</span>
+<button onclick="add(4,40)">+</button></div>
+
+<div class="card"><div class="icon">🥭</div>Mango ₹80<br>
+<button onclick="remove(5,80)">-</button>
+<span id="q5" class="qty">0</span>
+<button onclick="add(5,80)">+</button></div>
+
+<div class="card"><div class="icon">🍓</div>Strawberry ₹90<br>
+<button onclick="remove(6,90)">-</button>
+<span id="q6" class="qty">0</span>
+<button onclick="add(6,90)">+</button></div>
+
+<div class="card"><div class="icon">🍍</div>Pineapple ₹100<br>
+<button onclick="remove(7,100)">-</button>
+<span id="q7" class="qty">0</span>
+<button onclick="add(7,100)">+</button></div>
+
+<div class="card"><div class="icon">🥝</div>Kiwi ₹120<br>
+<button onclick="remove(8,120)">-</button>
+<span id="q8" class="qty">0</span>
+<button onclick="add(8,120)">+</button></div>
+
+<div class="card"><div class="icon">🍒</div>Cherry ₹140<br>
+<button onclick="remove(9,140)">-</button>
+<span id="q9" class="qty">0</span>
+<button onclick="add(9,140)">+</button></div>
+
+<div class="card"><div class="icon">🍐</div>Pear ₹70<br>
+<button onclick="remove(10,70)">-</button>
+<span id="q10" class="qty">0</span>
+<button onclick="add(10,70)">+</button></div>
+
+<div class="card"><div class="icon">🍦</div>Vanilla ₹120<br>
+<button onclick="remove(11,120)">-</button>
+<span id="q11" class="qty">0</span>
+<button onclick="add(11,120)">+</button></div>
+
+<div class="card"><div class="icon">🍨</div>Chocolate ₹130<br>
+<button onclick="remove(12,130)">-</button>
+<span id="q12" class="qty">0</span>
+<button onclick="add(12,130)">+</button></div>
+
+<div class="card"><div class="icon">🍧</div>Blackcurrant ₹140<br>
+<button onclick="remove(13,140)">-</button>
+<span id="q13" class="qty">0</span>
+<button onclick="add(13,140)">+</button></div>
+
+<div class="card"><div class="icon">🍦</div>Strawberry Ice Cream ₹135<br>
+<button onclick="remove(14,135)">-</button>
+<span id="q14" class="qty">0</span>
+<button onclick="add(14,135)">+</button></div>
+
+<div class="card"><div class="icon">🍨</div>Mango Ice Cream ₹145<br>
+<button onclick="remove(15,145)">-</button>
+<span id="q15" class="qty">0</span>
+<button onclick="add(15,145)">+</button></div>
+
+<div class="card"><div class="icon">🍧</div>Butterscotch ₹150<br>
+<button onclick="remove(16,150)">-</button>
+<span id="q16" class="qty">0</span>
+<button onclick="add(16,150)">+</button></div>
+
+<div class="card"><div class="icon">🍦</div>Pistachio ₹160<br>
+<button onclick="remove(17,160)">-</button>
+<span id="q17" class="qty">0</span>
+<button onclick="add(17,160)">+</button></div>
+
+<div class="card"><div class="icon">🍨</div>Oreo ₹170<br>
+<button onclick="remove(18,170)">-</button>
+<span id="q18" class="qty">0</span>
+<button onclick="add(18,170)">+</button></div>
+
+<div class="card"><div class="icon">🍧</div>Kulfi ₹180<br>
+<button onclick="remove(19,180)">-</button>
+<span id="q19" class="qty">0</span>
+<button onclick="add(19,180)">+</button></div>
+
+<div class="card"><div class="icon">🍫</div>Chocolate ₹1<br>
+<button onclick="remove(20,1)">-</button>
+<span id="q20" class="qty">0</span>
+<button onclick="add(20,1)">+</button></div>
+<h2>Your Cart</h2>
+
+<p>Total Amount: ₹1</p>
+
+<a href="/payment/?amount=1">
+<button>Proceed to Payment</button>
+</a>
+
+</div>
+
+<div class="total">
+Total ₹<span id="total">0</span>
+</div>
+
+<div class="checkout">
+<button onclick="goCheckout()">Proceed to Checkout</button>
 </div>
 
 </body>
